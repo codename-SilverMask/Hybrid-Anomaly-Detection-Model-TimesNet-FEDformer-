@@ -5,6 +5,7 @@ from . import Pyraformer, PatchTST, MICN, Crossformer, FiLM, iTransformer
 from . import Koopa, TiDE, FreTS, TimeMixer, TSMixer, SegRNN
 from . import TemporalFusionTransformer, SCINet, PAttn, TimeXer
 from . import WPMixer, MultiPatchFormer, KANAD, MSGNet, TimeFilter
+from . import Hybrid_AD
 
 # Optional models - gracefully skip if dependencies are missing
 try:
@@ -55,5 +56,6 @@ __all__ = [
     'Koopa', 'TiDE', 'FreTS', 'TimeMixer', 'TSMixer', 'SegRNN',
     'MambaSimple', 'TemporalFusionTransformer', 'SCINet', 'PAttn', 'TimeXer',
     'WPMixer', 'MultiPatchFormer', 'KANAD', 'MSGNet', 'TimeFilter',
-    'Sundial', 'TimeMoE', 'Chronos', 'Moirai', 'TiRex', 'TimesFM', 'Chronos2'
+    'Sundial', 'TimeMoE', 'Chronos', 'Moirai', 'TiRex', 'TimesFM', 'Chronos2',
+    'Hybrid_AD'
 ]

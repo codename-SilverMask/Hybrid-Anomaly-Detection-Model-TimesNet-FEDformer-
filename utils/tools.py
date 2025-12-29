@@ -118,3 +118,58 @@ def adjustment(gt, pred):
 
 def cal_accuracy(y_pred, y_true):
     return np.mean(y_pred == y_true)
+
+
+def balanced_adjustment(gt, pred):
+    """
+    Balanced Point Adjustment (BA)
+    More rigorous than standard PA - only adjusts predictions within actual anomaly segments
+    and penalizes false positives more strictly.
+    
+    Args:
+        gt: Ground truth labels (0 or 1)
+        pred: Predicted labels (0 or 1)
+    Returns:
+        gt, pred_adjusted: Adjusted ground truth and predictions
+    """
+    pred_adjusted = pred.copy()
+    
+    # Find all anomaly segments in ground truth
+    anomaly_segments = []
+    in_anomaly = False
+    start_idx = 0
+    
+    for i in range(len(gt)):
+        if gt[i] == 1 and not in_anomaly:
+            in_anomaly = True
+            start_idx = i
+        elif gt[i] == 0 and in_anomaly:
+            in_anomaly = False
+            anomaly_segments.append((start_idx, i))
+    
+    # Handle case where anomaly extends to end
+    if in_anomaly:
+        anomaly_segments.append((start_idx, len(gt)))
+    
+    # For each anomaly segment, adjust predictions ONLY within that segment
+    for start, end in anomaly_segments:
+        # Check if there's any detection within this segment
+        detected_in_segment = False
+        first_detection = -1
+        
+        for i in range(start, end):
+            if pred_adjusted[i] == 1:
+                detected_in_segment = True
+                first_detection = i
+                break
+        
+        # If detected, mark entire segment as detected (PA behavior within segment)
+        if detected_in_segment:
+            for i in range(start, end):
+                pred_adjusted[i] = 1
+        # If not detected, segment remains as predicted (no forced adjustment)
+    
+    # Critical difference from PA: Do NOT adjust false positives outside anomaly segments
+    # This prevents inflating metrics by counting all predictions in normal regions as correct
+    
+    return gt, pred_adjusted

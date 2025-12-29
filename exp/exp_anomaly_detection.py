@@ -1,6 +1,6 @@
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
-from utils.tools import EarlyStopping, adjust_learning_rate, adjustment
+from utils.tools import EarlyStopping, adjust_learning_rate, adjustment, balanced_adjustment
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import accuracy_score
 import torch.multiprocessing
@@ -196,11 +196,26 @@ class Exp_Anomaly_Detection(Exp_Basic):
             accuracy, precision,
             recall, f_score))
 
+        # (5) Balanced Point Adjustment evaluation
+        print("\n=== Balanced Point Adjustment (BA) Evaluation ===")
+        gt_ba, pred_ba = balanced_adjustment(test_labels.astype(int), (test_energy > threshold).astype(int))
+        
+        pred_ba = np.array(pred_ba)
+        gt_ba = np.array(gt_ba)
+        
+        accuracy_ba = accuracy_score(gt_ba, pred_ba)
+        precision_ba, recall_ba, f_score_ba, support_ba = precision_recall_fscore_support(gt_ba, pred_ba, average='binary')
+        print("BA - Accuracy : {:0.4f}, Precision : {:0.4f}, Recall : {:0.4f}, F-score : {:0.4f} ".format(
+            accuracy_ba, precision_ba, recall_ba, f_score_ba))
+
         f = open("result_anomaly_detection.txt", 'a')
         f.write(setting + "  \n")
         f.write("Accuracy : {:0.4f}, Precision : {:0.4f}, Recall : {:0.4f}, F-score : {:0.4f} ".format(
             accuracy, precision,
             recall, f_score))
+        f.write('\n')
+        f.write("BA - Accuracy : {:0.4f}, Precision : {:0.4f}, Recall : {:0.4f}, F-score : {:0.4f} ".format(
+            accuracy_ba, precision_ba, recall_ba, f_score_ba))
         f.write('\n')
         f.write('\n')
         f.close()
