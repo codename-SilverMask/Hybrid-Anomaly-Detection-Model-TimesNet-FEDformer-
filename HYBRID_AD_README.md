@@ -113,7 +113,7 @@ python -u run.py `
   --anomaly_ratio 1 `
   --batch_size 128 `
   --learning_rate 0.0001 `
-  --train_epochs 10 `
+  --train_epochs 5 `
   --patience 3 `
   --des 'Hybrid_AD_MSL'
 ```
@@ -147,7 +147,7 @@ python -u run.py \
 - **top_k**: 5 (TimesNet parameter)
 - **batch_size**: 128
 - **learning_rate**: 0.0001
-- **train_epochs**: 10
+- **train_epochs**: 5
 
 ### Gating Network Configuration
 

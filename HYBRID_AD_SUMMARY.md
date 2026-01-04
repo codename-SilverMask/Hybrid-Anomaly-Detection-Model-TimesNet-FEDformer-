@@ -80,7 +80,7 @@ BA - Accuracy: 0.XXXX, Precision: 0.XXXX, Recall: 0.XXXX, F-score: 0.XXXX
 - `top_k=5` (TimesNet parameter)
 - `batch_size=128`
 - `learning_rate=0.0001`
-- `train_epochs=10`
+- `train_epochs=5`
 - `patience=3` (early stopping)
 
 **Usage:**
