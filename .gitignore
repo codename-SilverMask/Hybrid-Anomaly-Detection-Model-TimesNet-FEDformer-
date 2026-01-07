@@ -166,3 +166,11 @@ result_anomaly_detection.txt
 scripts/augmentation/
 run_anylearn.py
 environment.txt
+
+# GitHub and AI assistant configurations
+.github/
+copilot-instructions.md
+HYBRID_AD_QUICKREF.md
+HYBRID_AD_README.md
+HYBRID_AD_SUMMARY.md
+README_zh.md
