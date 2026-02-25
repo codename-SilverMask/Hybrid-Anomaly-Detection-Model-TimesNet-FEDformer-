@@ -3,8 +3,32 @@ import torch
 from models import Autoformer, Transformer, TimesNet, Nonstationary_Transformer, DLinear, FEDformer, \
     Informer, LightTS, Reformer, ETSformer, Pyraformer, PatchTST, MICN, Crossformer, FiLM, iTransformer, \
     Koopa, TiDE, FreTS, TimeMixer, TSMixer, SegRNN, MambaSimple, TemporalFusionTransformer, SCINet, PAttn, TimeXer, \
-    WPMixer, MultiPatchFormer, KANAD, MSGNet, TimeFilter, Sundial, TimeMoE, Chronos, Moirai, TiRex,\
-    TimesFM, Chronos2, Hybrid_AD
+    WPMixer, MultiPatchFormer, KANAD, MSGNet, TimeFilter, Sundial, TimeMoE, Hybrid_AD
+
+# Optional LTSM models — require separate installs with potentially conflicting dependencies
+try:
+    from models import Chronos, Chronos2
+    _chronos_available = True
+except ImportError:
+    _chronos_available = False
+
+try:
+    from models import TimesFM
+    _timesfm_available = True
+except ImportError:
+    _timesfm_available = False
+
+try:
+    from models import Moirai
+    _moirai_available = True
+except ImportError:
+    _moirai_available = False
+
+try:
+    from models import TiRex
+    _tirex_available = True
+except ImportError:
+    _tirex_available = False
 
 
 class Exp_Basic(object):
@@ -45,13 +69,18 @@ class Exp_Basic(object):
             'TimeFilter': TimeFilter,
             'Sundial': Sundial,
             'TimeMoE': TimeMoE,
-            'Chronos': Chronos,
-            'Moirai': Moirai,
-            'TiRex': TiRex,
-            'TimesFM': TimesFM,
-            'Chronos2': Chronos2,
             'Hybrid_AD': Hybrid_AD
         }
+        if _chronos_available:
+            self.model_dict['Chronos'] = Chronos
+            self.model_dict['Chronos2'] = Chronos2
+        if _timesfm_available:
+            self.model_dict['TimesFM'] = TimesFM
+        if _moirai_available:
+            self.model_dict['Moirai'] = Moirai
+        if _tirex_available:
+            self.model_dict['TiRex'] = TiRex
+
         if args.model == 'Mamba':
             print('Please make sure you have successfully installed mamba_ssm')
             from models import Mamba
